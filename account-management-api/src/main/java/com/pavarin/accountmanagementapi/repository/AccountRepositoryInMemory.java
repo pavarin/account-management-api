@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Repository;
+
 import com.pavarin.accountmanagementapi.entity.Account;
 
+@Repository
 public class AccountRepositoryInMemory implements AccountRepository {
 
     private List<Account> accounts = null;
