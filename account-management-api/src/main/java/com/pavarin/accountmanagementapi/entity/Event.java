@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class Event {
     
     String type;
-	int origin;
-	int destination;
-	double amount;
+	Long origin;
+	Long destination;
+	Double amount;
 
 }

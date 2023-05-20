@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Account {
 
-    int id;
-    double amount;
+    Long id;
+    Double amount;
     
 }
