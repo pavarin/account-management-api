@@ -8,8 +8,8 @@ import com.pavarin.accountmanagementapi.entity.Account;
 public interface AccountRepository {
     
     void reset();
-	Account create(Long id);
+	Account create(String id);
 	Account save(Account account);
-	Account get(Long id);
+	Account get(String id);
     
 }

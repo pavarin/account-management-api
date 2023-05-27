@@ -44,7 +44,7 @@ public class AccountController {
 	
 	@GetMapping("/balance")
 	@ResponseBody
-	public ResponseEntity<String> balance(@RequestParam(name="account_id") Long id) {
+	public ResponseEntity<String> balance(@RequestParam(name="account_id") String id) {
 		try {
 			double balance = service.balance(id);
 			return ResponseEntity

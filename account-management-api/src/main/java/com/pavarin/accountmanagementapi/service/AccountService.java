@@ -21,7 +21,7 @@ public class AccountService {
 		accountRepository.reset();
 	}
 	
-	public Account create(Long id) throws Exception {
+	public Account create(String id) throws Exception {
 		if (Objects.isNull(accountRepository.get(id))) {
 			return accountRepository.create(id);
 		} else {
@@ -29,7 +29,7 @@ public class AccountService {
 		}
 	}
 	
-	public Account deposit(Long id, double amount) throws Exception {
+	public Account deposit(String id, Double amount) throws Exception {
 		Account account = accountRepository.get(id);
 		if (Objects.isNull(account)) {
 			account = create(id);
@@ -38,7 +38,7 @@ public class AccountService {
 		return accountRepository.save(account);
 	}
 	
-	public Account withdraw(Long id, double amount) throws Exception {
+	public Account withdraw(String id, double amount) throws Exception {
 		Account account = accountRepository.get(id);
 		if (Objects.isNull(account)) {
 			throw new AccountNotFoundException();
@@ -49,7 +49,7 @@ public class AccountService {
 		return accountRepository.save(account);
 	}
 	
-	public AccountResponseTransfer transfer(Long originId, double amount, Long destinationId) throws Exception {
+	public AccountResponseTransfer transfer(String originId, double amount, String destinationId) throws Exception {
 		Account originAccount = accountRepository.get(originId);
 		Account destinationAccount = accountRepository.get(destinationId);
 		if (Objects.isNull(originAccount)) {
@@ -63,7 +63,7 @@ public class AccountService {
 		return accountResponseTransfer;
 	}
 	
-	public double balance(Long id) throws Exception {
+	public double balance(String id) throws Exception {
 		Account account = accountRepository.get(id);
 		if (Objects.isNull(account)) {
 			throw new AccountNotFoundException();
@@ -71,7 +71,7 @@ public class AccountService {
 		return account.getBalance();
 	}
 	
-	public Account get(Long id) {
+	public Account get(String id) {
 		return accountRepository.get(id);
 	}
 	

@@ -23,7 +23,7 @@ public class AccountRepositoryInMemory implements AccountRepository {
 	}
 	
 	@Override
-	public Account create(Long id) {
+	public Account create(String id) {
 		Account account = new Account(id, 0.0);
 		accounts.add(account);
 		return account;
@@ -39,7 +39,7 @@ public class AccountRepositoryInMemory implements AccountRepository {
 	}
 
 	@Override
-	public Account get(Long id) {
+	public Account get(String id) {
 		return accounts.stream()
 					.filter(account -> account.getId().equals(id))
 					.findFirst()
