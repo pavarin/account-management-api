@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     Long id;
-    Double amount;
+    Double balance;
     
 }

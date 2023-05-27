@@ -41,7 +41,7 @@ public class AccountRepositoryInMemory implements AccountRepository {
 	@Override
 	public Account get(Long id) {
 		return accounts.stream()
-					.filter(account -> account.getId() == id)
+					.filter(account -> account.getId().equals(id))
 					.findFirst()
 					.orElse(null);
 	}

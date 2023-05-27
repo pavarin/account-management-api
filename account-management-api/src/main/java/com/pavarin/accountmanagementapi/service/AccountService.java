@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.pavarin.accountmanagementapi.entity.Account;
 import com.pavarin.accountmanagementapi.exception.AccountNotFoundException;
+import com.pavarin.accountmanagementapi.exception.InsufficientBalanceException;
 import com.pavarin.accountmanagementapi.repository.AccountRepository;
 import com.pavarin.accountmanagementapi.response.AccountResponseTransfer;
 
@@ -33,7 +34,7 @@ public class AccountService {
 		if (Objects.isNull(account)) {
 			account = create(id);
 		}
-		account.setAmount(account.getAmount() + amount);
+		account.setBalance(account.getBalance() + amount);
 		return accountRepository.save(account);
 	}
 	
@@ -41,10 +42,10 @@ public class AccountService {
 		Account account = accountRepository.get(id);
 		if (Objects.isNull(account)) {
 			throw new AccountNotFoundException();
-		} else if ( account.getAmount() < amount) {
-			throw new Exception("Saldo insuficiente!");
+		} else if (account.getBalance() < amount) {
+			throw new InsufficientBalanceException("Insufficient balance!");
 		} 
-		account.setAmount(account.getAmount() - amount);
+		account.setBalance(account.getBalance() - amount);
 		return accountRepository.save(account);
 	}
 	
@@ -52,17 +53,13 @@ public class AccountService {
 		Account originAccount = accountRepository.get(originId);
 		Account destinationAccount = accountRepository.get(destinationId);
 		if (Objects.isNull(originAccount)) {
-			throw new Exception("Conta origem inexistente!");
+			throw new AccountNotFoundException("Origin account not found!");
 		} else if (Objects.isNull(destinationAccount)) {
-			throw new Exception("Conta destinto inexistente!");
-		} else if (originAccount.getAmount() < amount) {
-			throw new Exception("Saldo insuficiente para efetivar transferência!");
-		} 
-		originAccount.setAmount(originAccount.getAmount() - amount);
-		destinationAccount.setAmount(destinationAccount.getAmount() + amount);
-		AccountResponseTransfer accountResponseTransfer = 
-				new AccountResponseTransfer(accountRepository.save(originAccount), 
-						accountRepository.save(destinationAccount));
+			destinationAccount = create(destinationId);
+		}
+		originAccount = accountRepository.save(withdraw(originId, amount));
+		destinationAccount = accountRepository.save(deposit(destinationId, amount));
+		AccountResponseTransfer accountResponseTransfer = new AccountResponseTransfer(originAccount, destinationAccount);
 		return accountResponseTransfer;
 	}
 	
@@ -71,7 +68,7 @@ public class AccountService {
 		if (Objects.isNull(account)) {
 			throw new AccountNotFoundException();
 		}
-		return account.getAmount();
+		return account.getBalance();
 	}
 	
 	public Account get(Long id) {

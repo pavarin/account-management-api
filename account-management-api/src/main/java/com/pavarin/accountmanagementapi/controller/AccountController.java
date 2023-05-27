@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pavarin.accountmanagementapi.entity.Account;
 import com.pavarin.accountmanagementapi.entity.Event;
 import com.pavarin.accountmanagementapi.exception.AccountNotFoundException;
+import com.pavarin.accountmanagementapi.exception.InsufficientBalanceException;
 import com.pavarin.accountmanagementapi.response.AccountResponseDeposit;
 import com.pavarin.accountmanagementapi.response.AccountResponseTransfer;
 import com.pavarin.accountmanagementapi.response.AccountResponseWithDraw;
@@ -83,6 +84,10 @@ public class AccountController {
 			return ResponseEntity
 					.status(HttpStatus.BAD_REQUEST)
 					.body("Invalid event type!"); 
+		} catch (InsufficientBalanceException e) {
+			return ResponseEntity
+					.status(HttpStatus.PAYMENT_REQUIRED)
+					.body(e.getMessage());
 		} catch (AccountNotFoundException e) {
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)
