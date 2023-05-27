@@ -1,0 +1,45 @@
+### Reset state before starting tests
+POST http://localhost:8080/reset HTTP/1.1
+
+### Get balance for non-existing account
+GET http://localhost:8080/balance?account_id=1234 HTTP/1.1
+
+### Create account with initial balance
+POST http://localhost:8080/event HTTP/1.1
+content-type: application/json
+
+{ "type":"deposit","destination":"100","amount":10}
+
+### Deposit into existing account
+POST http://localhost:8080/event HTTP/1.1
+content-type: application/json
+
+{"type":"deposit", "destination":"100", "amount":10}
+
+### Get balance for existing account
+GET http://localhost:8080/balance?account_id=100 HTTP/1.1
+content-type: application/json
+
+### Withdraw from non-existing account
+POST http://localhost:8080/event HTTP/1.1
+content-type: application/json
+
+{"type":"withdraw", "origin":"200", "amount":10}
+
+### Withdraw from existing account
+POST http://localhost:8080/event HTTP/1.1
+content-type: application/json
+
+{"type":"withdraw", "origin":"100", "amount":5}
+
+### Transfer from existing account
+POST http://localhost:8080/event HTTP/1.1
+content-type: application/json
+
+{"type":"transfer", "origin":"100", "amount":15, "destination":"300"}
+
+### Transfer from non-existing account
+POST http://localhost:8080/event HTTP/1.1
+content-type: application/json
+
+{"type":"transfer", "origin":"200", "amount":15, "destination":"300"}
